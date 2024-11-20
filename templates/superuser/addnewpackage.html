@@ -1,0 +1,90 @@
+{% extends 'superuser/adminbase.html' %}
+{% load static %}
+{% block content %}
+<div class="page-body">
+  <!-- Container-fluid starts -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-header">
+                <h5>Add New Package</h5>
+              </div>
+              <div class="card-body">
+                <form class="theme-form mega-form" id="add-package-form" method="post" action="{% if is_edit %}{% url 'package_edit' package.pk %}{% else %}{% url 'addnewpack' %}{% endif %}">
+                  {% csrf_token %}
+                  <!-- Display form errors if any -->
+                  {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                      <ul>
+                        {% for field, errors in form.errors.items %}
+                          {% for error in errors %}
+                            <li>{{ error|escape }}</li>
+                          {% endfor %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+
+                  <!-- Destination Selection -->
+                  <div class="mb-3">
+                    <label class="form-label-title" for="destination-select">Destination</label>
+                    <select class="form-control" name="destination" id="destination-select">
+                      <option value="" selected disabled>Select a Destination</option>
+                      {% for destination in destinations %}
+                        <option value="{{ destination.id }}">{{ destination.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <!-- Package Name -->
+                  <div class="mb-3">
+                    <label class="form-label-title" for="name">Package Name</label>
+                    <input class="form-control" type="text" name="name" id="name" value="{{ form.name.value|default:'' }}" placeholder="Package name" required />
+                  </div>
+
+                  <!-- Description -->
+                  <div class="mb-3">
+                    <label class="form-label-title" for="description">Description</label>
+                    <textarea class="form-control" name="description" id="description" placeholder="Enter package description">{{ form.description.value|default:'' }}</textarea>
+                  </div>
+
+                  <!-- Adult Price -->
+                  <div class="mb-3">
+                    <label class="form-label-title" for="adult-price">Adult Price</label>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">$</span>
+                      <input class="form-control" type="number" name="adult_price" id="adult-price" step="0.01" min="0" value="{{ form.adult_price.value|default:'' }}" placeholder="Enter price for adults" required />
+                    </div>
+                  </div>
+
+                  <!-- Child Price -->
+                  <div class="mb-3">
+                    <label class="form-label-title" for="child-price">Child Price</label>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">$</span>
+                      <input class="form-control" type="number" name="child_price" id="child-price" step="0.01" min="0" value="{{ form.child_price.value|default:'' }}" placeholder="Enter price for children" required />
+                    </div>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary">
+                      {% if is_edit %}Update Package{% else %}Add Package{% endif %}
+                  </button>
+                    <a href="{% url 'allpac' %}" class="btn btn-outline-primary">Cancel</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container-fluid Ends -->
+</div>
+{% include 'superuser/adminfooter.html' %}
+{% endblock %}

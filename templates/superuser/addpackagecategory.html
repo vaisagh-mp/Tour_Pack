@@ -1,0 +1,41 @@
+{% extends 'superuser/adminbase.html' %}
+{% load static %}
+{% block content %}
+<div class="page-body">
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Create New Destination</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="create-destination-form" method="post">
+                                    {% csrf_token %}
+                                    <!-- Destination Name -->
+                                    <div class="mb-3">
+                                        <label class="form-label-title">Destination Name</label>
+                                        <input class="form-control" type="text" name="name"
+                                            placeholder="Enter destination name" required />
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="card-footer text-end">
+                                        <button type="submit" class="btn btn-primary me-3">Submit</button>
+                                        <a href="{% url 'allpackcat' %}" class="btn btn-outline-primary">Cancel</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+</div>
+{% include 'superuser/adminfooter.html' %}
+{% endblock %}
